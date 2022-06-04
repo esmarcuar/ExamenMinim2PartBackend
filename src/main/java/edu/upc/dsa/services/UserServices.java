@@ -27,7 +27,7 @@ public class UserServices {
     public UserServices() {
         this.manager = UserManagerImpl.getInstance();
         if (manager.userListSize() == 0) {
-            User u1 = this.manager.addUser(new User("Esther", "12345", "EstheMC", "esther@gmail.com"));
+            User u1 = this.manager.addUser(new User("Esther", "EstheMC", "12345", "esther@gmail.com"));
             User u2 = this.manager.addUser(new User("Oscar", "Abcd", "ÓscarPL", "oscar@gmail.com"));
 
             Item i1 = new Item("Espada", "Para atacar", 50);
@@ -104,32 +104,7 @@ public class UserServices {
         this.manager.addUser(user);
         return Response.status(200).entity(user).build();
     }
-    ////////////////////////////////////////EXAMEN///////////////////////////////////////////////////////////////////////
-    @POST
-    @ApiOperation(value = "Denunciar un abuso", notes = "Nombre y abuso")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response = User.class),
-            @ApiResponse(code = 500, message = "Validation Error")
-    })
-    @Path("/denuncia")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response addAbuso(User u) {
-        User user = new User(u.getName(), u.getPassword(), u.getUsername(), u.getMail(), u.getAbuso(), u.getDate());
-        if (user.getUsername().equals("") || user.getAbuso().equals("")) {
-            return Response.status(500).build();
-        }
-        for (User us : this.manager.getAllUsers()) {
-            if (us.getUsername().equals(user.getUsername())) {
-                return Response.status(500).build();
-            }
-        }
-        user.setAbuso(u.getAbuso());
-        user.setName(u.getName());
-        user.setDate(u.getDate());
-        this.manager.addAbuso(user);
-        return Response.status(200).entity(user).build();
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Get de la lista de usuarios
     @GET
     @ApiOperation(value = "Get de todos los usuarios", notes = "Get todos los usuarios")
